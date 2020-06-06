@@ -1,0 +1,22 @@
+{
+  "name": "webcrawler_typescript",
+  "version": "1.0.0",
+  "description": "爬虫 web crawler，使用typescript编写的爬虫，用来爬取豆瓣电影排行榜的数据",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node ./src/crowller.ts"
+  },
+  "keywords": ["爬虫", "web crawler", "typescript", "superagent"],
+  "author": "fixfirst",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "superagent": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.18",
+    "@types/superagent": "^4.1.7",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  }
+}
