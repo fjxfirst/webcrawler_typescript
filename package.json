@@ -4,9 +4,21 @@
   "description": "爬虫 web crawler，使用typescript编写的爬虫，用来爬取豆瓣电影排行榜的数据",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node ./src/crowller.ts"
+    "dev:build": "tsc -w",
+    "dev:start": "nodemon node ./build/crowller.js",
+    "dev": "concurrently npm:dev:*"
   },
-  "keywords": ["爬虫", "web crawler", "typescript", "superagent"],
+  "nodemonConfig": {
+    "ignore": [
+      "data/*"
+    ]
+  },
+  "keywords": [
+    "爬虫",
+    "web crawler",
+    "typescript",
+    "superagent"
+  ],
   "author": "fixfirst",
   "license": "ISC",
   "dependencies": {
@@ -16,6 +28,8 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.18",
     "@types/superagent": "^4.1.7",
+    "concurrently": "^5.2.0",
+    "nodemon": "^2.0.4",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.5"
   }
