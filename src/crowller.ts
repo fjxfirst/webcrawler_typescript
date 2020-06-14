@@ -15,26 +15,22 @@ class Crowller {
         this.initSpiderProcess();
     }
 
-    async getRawHtml() {
+    private async getRawHtml() {
         const result = await superagent.get(this.url); // 发送请求，获取页面
         return result.text;
     }
 
 
-    writeFile(content: string) {
+    private writeFile(content: string) {
         fs.writeFileSync(this.filePath, content);
     }
 
-    async initSpiderProcess() {
+    private async initSpiderProcess() {
         const html = await this.getRawHtml();
         const fileContent = this.analyzer.analyze(html, this.filePath);
         this.writeFile(fileContent);
     }
-
-
-
-
 }
 const url = 'https://movie.douban.com/chart';  // 爬取豆瓣电影排行榜
-const analyzer = new DouBanAnalyzer();
+const analyzer = DouBanAnalyzer.getInstance();
 const crowller = new Crowller(url ,analyzer);

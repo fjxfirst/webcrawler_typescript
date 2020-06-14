@@ -15,6 +15,14 @@ interface Content {
     [propName: number]: Movie[]
 }
 export default class DouBanAnalyzer implements Analyer{
+    private static instance :DouBanAnalyzer;
+    private constructor() {}
+    static getInstance() {
+        if(!DouBanAnalyzer.instance) {
+            DouBanAnalyzer.instance = new DouBanAnalyzer();
+        }
+        return DouBanAnalyzer.instance;
+    }
     private getMovieInfo(html: string) {
         const $ = cheerio.load(html);
         const movies = $('.pl2');
@@ -29,7 +37,7 @@ export default class DouBanAnalyzer implements Analyer{
             data: movieInfos
         };
     }
-    generateJsonContent(movieInfo: MovieResult, filePath: string) {
+    private generateJsonContent(movieInfo: MovieResult, filePath: string) {
         let fileContent:Content = {};
         if (fs.existsSync(filePath)) {
             fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
