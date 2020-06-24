@@ -2,10 +2,10 @@
 import fs from 'fs';
 import path from 'path';
 import superagent from 'superagent';
-import DouBanAnalyzer from './DouBanAnalyzer'
+import DouBanAnalyzer from './DouBanAnalyzer';
 
 export interface Analyer {
-    analyze:(html: string, filePath: string)=>string
+    analyze: (html: string, filePath: string) => string
 }
 
 class Crowller {
@@ -31,6 +31,6 @@ class Crowller {
         this.writeFile(fileContent);
     }
 }
-const url = 'https://movie.douban.com/chart';  // 爬取豆瓣电影排行榜
-const analyzer = DouBanAnalyzer.getInstance();
-const crowller = new Crowller(url ,analyzer);
+
+
+export default Crowller;

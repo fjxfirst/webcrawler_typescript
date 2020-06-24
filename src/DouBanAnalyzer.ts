@@ -1,6 +1,7 @@
 import cheerio from "cheerio";
 import fs from "fs";
 import {Analyer} from './crowller';
+
 interface Movie {
     movieName: string,
     score: number
@@ -14,15 +15,20 @@ interface MovieResult {
 interface Content {
     [propName: number]: Movie[]
 }
-export default class DouBanAnalyzer implements Analyer{
-    private static instance :DouBanAnalyzer;
-    private constructor() {}
+
+export default class DouBanAnalyzer implements Analyer {
+    private static instance: DouBanAnalyzer;
+
+    private constructor() {
+    }
+
     static getInstance() {
-        if(!DouBanAnalyzer.instance) {
+        if (!DouBanAnalyzer.instance) {
             DouBanAnalyzer.instance = new DouBanAnalyzer();
         }
         return DouBanAnalyzer.instance;
     }
+
     private getMovieInfo(html: string) {
         const $ = cheerio.load(html);
         const movies = $('.pl2');
@@ -37,17 +43,19 @@ export default class DouBanAnalyzer implements Analyer{
             data: movieInfos
         };
     }
+
     private generateJsonContent(movieInfo: MovieResult, filePath: string) {
-        let fileContent:Content = {};
+        let fileContent: Content = {};
         if (fs.existsSync(filePath)) {
             fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
         }
         fileContent[movieInfo.time] = movieInfo.data;
         return fileContent;
     }
-    public analyze(html:string, filePath:string){
+
+    public analyze(html: string, filePath: string) {
         const movieInfo = this.getMovieInfo(html);
         const fileContent = this.generateJsonContent(movieInfo, filePath);
-        return JSON.stringify(fileContent)
+        return JSON.stringify(fileContent);
     }
 }

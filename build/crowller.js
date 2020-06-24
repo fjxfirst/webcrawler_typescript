@@ -43,7 +43,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var superagent_1 = __importDefault(require("superagent"));
-var DouBanAnalyzer_1 = __importDefault(require("./DouBanAnalyzer"));
 var Crowller = /** @class */ (function () {
     function Crowller(url, analyzer) {
         this.url = url;
@@ -84,6 +83,4 @@ var Crowller = /** @class */ (function () {
     };
     return Crowller;
 }());
-var url = 'https://movie.douban.com/chart'; // 爬取豆瓣电影排行榜
-var analyzer = DouBanAnalyzer_1.default.getInstance();
-var crowller = new Crowller(url, analyzer);
+exports.default = Crowller;
