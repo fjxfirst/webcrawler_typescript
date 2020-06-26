@@ -11,16 +11,21 @@ interface BodyRequest extends Request {
 }
 
 
-@controller('/')
+@controller('/api')
 export class LoginController {
     static isLogin(req:BodyRequest):boolean{
         return !!(req.session ? req.session.login : false);
+    }
+    @get('/isLogin')
+    isLogin(req: BodyRequest, res: Response):void {
+        const isLogin = LoginController.isLogin(req);
+        res.json(getResPonseData(isLogin));
     }
     @post('/login')
     login(req: BodyRequest, res: Response):void {
         const isLogin = LoginController.isLogin(req);
         if (isLogin) {
-            res.send('已经登录');
+            res.json(getResPonseData(true));
         } else {
             if (req.body.password === '123' && req.session) {
                 req.session.login = true;
