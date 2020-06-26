@@ -1,36 +1,38 @@
 import 'reflect-metadata';
 import {Request, Response} from "express";
-import {controller, get,post} from "./decorator";
+import {controller,get ,post} from "../decorator";
 import {getResPonseData} from "../utils/util";
 
 //对于experss声明文件不完整解决方案，通过接口继承，这样body便不再是any类型了
 interface BodyRequest extends Request {
     body: {
-        // password: string|undefined
         [key: string]: string | undefined
     }
 }
 
 
-@controller
-class LoginController {
-    @post('/login')
-    login(req: BodyRequest, res: Response ){
-            const isLogin = req.session ? req.session.login : false;
-            if (isLogin) {
-                res.send('已经登录');
-            } else {
-                if (req.body.password === '123' && req.session) {
-                    req.session.login = true;
-                    res.json(getResPonseData(true));
-                } else {
-                    res.json(getResPonseData(false, '登录失败'));
-                }
-            }
+@controller('/')
+export class LoginController {
+    static isLogin(req:BodyRequest):boolean{
+        return !!(req.session ? req.session.login : false);
     }
-    
+    @post('/login')
+    login(req: BodyRequest, res: Response):void {
+        const isLogin = LoginController.isLogin(req);
+        if (isLogin) {
+            res.send('已经登录');
+        } else {
+            if (req.body.password === '123' && req.session) {
+                req.session.login = true;
+                res.json(getResPonseData(true));
+            } else {
+                res.json(getResPonseData(false, '登录失败'));
+            }
+        }
+    }
+
     @get('/logout')
-    logout(req: BodyRequest, res: Response) {
+    logout(req: BodyRequest, res: Response):void {
         if (req.session) {
             req.session.login = undefined;
         }
@@ -38,8 +40,8 @@ class LoginController {
     }
 
     @get('/')
-    home(req: BodyRequest, res: Response) {
-        const isLogin = req.session ? req.session.login : false;
+    home(req: BodyRequest, res: Response):void {
+        const isLogin = LoginController.isLogin(req);
         if (isLogin) {
             res.send(`
             <html>

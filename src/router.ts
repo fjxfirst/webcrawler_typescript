@@ -1,3 +1,8 @@
+import {Router} from 'express';
+
+export default Router();
+
+/*
 import {Router, Request, Response, NextFunction} from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -83,4 +88,4 @@ router.get('/showData', checkLogin, (req: BodyRequest, res: Response) => {
         res.json(getResPonseData(false, '数据不存在'));
     }
 });
-export default router;
+export default router;*/
