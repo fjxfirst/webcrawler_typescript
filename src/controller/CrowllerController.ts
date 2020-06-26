@@ -17,6 +17,7 @@ interface BodyRequest extends Request {
 
 //提取公共逻辑中间件
 const checkLogin = (req: BodyRequest, res: Response, next: NextFunction):void => {
+    console.log('checkLogin middleware');
     const isLogin = !!(req.session ? req.session.login : false);
     if (isLogin) {
         next();
@@ -24,11 +25,20 @@ const checkLogin = (req: BodyRequest, res: Response, next: NextFunction):void =>
         res.json(getResPonseData(null, '请先登录'));
     }
 };
-
+const test = (req: BodyRequest, res: Response, next: NextFunction):void => {
+    console.log('test middleware');
+    const isLogin = !!(req.session ? req.session.login : false);
+    if (isLogin) {
+        next();
+    } else {
+        res.json(getResPonseData(null, '请先登录'));
+    }
+};
 @controller('/')
 export class CrowllerController {
     @get('/getData')
     @use(checkLogin)
+    @use(test)
     getData(req: BodyRequest, res: Response):void {
         const url = 'https://movie.douban.com/chart';  // 爬取豆瓣电影排行榜
         const analyzer = DouBanAnalyzer.getInstance();
