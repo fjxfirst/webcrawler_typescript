@@ -34,7 +34,7 @@ const test = (req: BodyRequest, res: Response, next: NextFunction):void => {
         res.json(getResPonseData(null, '请先登录'));
     }
 };
-@controller('/')
+@controller('/api')
 export class CrowllerController {
     @get('/getData')
     @use(checkLogin)
